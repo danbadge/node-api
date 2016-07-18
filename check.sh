@@ -1,0 +1,1 @@
+curl -v http://node-api-$ENVIRONMENT.herokuapp.com
