@@ -2,4 +2,4 @@
 set -x #echo on
 set -e #exit on error
 
-curl -v http://node-api-$ENVIRONMENT.herokuapp.com
+curl -v --fail http://node-api-$ENVIRONMENT.herokuapp.com
