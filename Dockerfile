@@ -1,11 +1,12 @@
 FROM node:latest
 
-ADD . /usr/src/cheeky-api
+RUN mkdir -p /usr/src/node-api
+WORKDIR /usr/src/node-api
 
-RUN cd /usr/src/cheeky-api && npm install
+ADD . /usr/src/node-api
 
-WORKDIR /usr/src/cheeky-api
+RUN npm install
 
 CMD ["node", "server.js"]
 
-EXPOSE 80
+EXPOSE 3000
