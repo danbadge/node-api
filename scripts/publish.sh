@@ -10,13 +10,13 @@ docker stop node-api-test
 docker rm node-api-test
 docker run -d -p 80:3000 --name node-api-test $REGISTRY/node-api:$version
 
-login_command=`aws ecr get-login --region $AWS_REGION`
+login_command=`aws ecr get-login`
 eval $login_command
 
 if [[ `aws ecr describe-repositories | grep "node-api"` ]]; then
   echo "ECR repository already exists - no need to create!"
 else
-	aws ecr create-repository --repository-name node-api --region $AWS_REGION
+	aws ecr create-repository --repository-name node-api
 fi
 
 docker push $REGISTRY/node-api:$version
