@@ -18,7 +18,7 @@ eval $login_command
 if [[ `aws ecr describe-repositories | grep "node-api"` ]]; then
   echo "ECR repository already exists - no need to create!"
 else
-	aws ecr create-repository --repository-name node-api
+  aws ecr create-repository --repository-name node-api
 fi
 
 docker push $REGISTRY/node-api:$version
