@@ -9,8 +9,8 @@ version=0.0.$SNAP_PIPELINE_COUNTER
 
 docker build -t $REGISTRY/node-api:$version .
 
-docker stop node-api-test
-docker rm node-api-test
+# docker stop node-api-test
+# docker rm node-api-test
 docker run -d -p 80:3000 --name node-api-test $REGISTRY/node-api:$version
 sleep 10
 curl -v --fail http://localhost
