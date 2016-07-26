@@ -2,7 +2,12 @@
 set -x #echo on
 set -e #exit on error
 
-heroku git:remote -a node-api-$ENVIRONMENT -r $ENVIRONMENT
-echo $SNAP_PIPELINE_COUNTER
-git push -f $ENVIRONMENT 0.0.$SNAP_PIPELINE_COUNTER:master
+app_id=node-api-$ENVIRONMENT
+version=0.0.$SNAP_PIPELINE_COUNTER
+
+docker login --email=_ --username=_ --password=$(heroku auth:token) registry.heroku.com
+docker tag $REGISTRY/node-api:$version registry.heroku.com/$app_id/web
+docker push registry.heroku.com/$app_id/web #this does a deploy too
+# can you login to multiple registry?
+
 ./check.sh
