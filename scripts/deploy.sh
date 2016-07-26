@@ -14,7 +14,13 @@ eval $login_command
 
 # pull image incase we don't have it
 docker pull $REGISTRY/node-api:$version
-docker tag $REGISTRY/node-api:$version registry.heroku.com/$app_id/web
+{
+  # MAC OSX
+  docker tag $REGISTRY/node-api:$version registry.heroku.com/$app_id/web 
+} || {
+  # Ubuntu
+  docker tag -f $REGISTRY/node-api:$version registry.heroku.com/$app_id/web 
+}
 
 # on push to heroku registry it deploys app
 docker push registry.heroku.com/$app_id/web
