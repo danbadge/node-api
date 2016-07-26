@@ -6,7 +6,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/status', function (req, res) {
-  res.send('All good here');
+  res.send('All good over here');
 });
 
 var server = app.listen(process.env.PORT || 3000, function () {

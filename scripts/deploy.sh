@@ -15,10 +15,9 @@ eval $login_command
 # pull image incase we don't have it
 docker pull $REGISTRY/node-api:$version
 {
-  # MAC OSX
   docker tag $REGISTRY/node-api:$version registry.heroku.com/$app_id/web 
 } || {
-  # Ubuntu
+  # Ubuntu - needs forcing if we're rolling back and tag exists
   docker tag -f $REGISTRY/node-api:$version registry.heroku.com/$app_id/web 
 }
 
