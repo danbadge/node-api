@@ -12,7 +12,11 @@ docker login --email=_ --username=_ --password=$(heroku auth:token) registry.her
 login_command=`aws ecr get-login`
 eval $login_command
 
+# pull image incase we don't have it
+docker pull $REGISTRY/node-api:$version
 docker tag $REGISTRY/node-api:$version registry.heroku.com/$app_id/web
-docker push registry.heroku.com/$app_id/web #this does a deploy too
+
+# on push to heroku registry it deploys app
+docker push registry.heroku.com/$app_id/web
 
 ./scripts/check.sh
