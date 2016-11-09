@@ -1,0 +1,38 @@
+image: node:latest
+
+before_script:
+  - npm install
+
+stages:
+  - test
+  - package
+  - deploy_staging
+  - deploy_production
+
+cache:
+  paths:
+  - node_modules/
+
+test_job:
+  stage: test
+  script:
+   - npm test
+
+package_job:
+  stage: package
+  script:
+    - ./scripts/gitlab_package.sh
+
+deploy_staging_job:
+  stage: deploy_staging
+  variables:
+    ENVIRONMENT: "staging"
+  script:
+    - ./scripts/gitlab_deploy.sh
+
+deploy_production_job:
+  stage: deploy_production
+  variables:
+    ENVIRONMENT: "production"
+  script:
+    - ./scripts/gitlab_deploy.sh    
