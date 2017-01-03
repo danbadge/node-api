@@ -12,7 +12,7 @@ cache:
   - node_modules/
 
 test_job:
-  image: node/4.7.0-alpine:latest
+  image: node:latest
   stage: test
   script:
    - npm test
