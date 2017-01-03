@@ -21,7 +21,8 @@ package_job:
   - docker:dind
   stage: package
   script:
-    - scripts/gitlab_package.sh
+    - ls -la ./scripts
+    - cat ./scripts/gitlab_package.sh
 
 deploy_staging_job:
   stage: deploy_staging
