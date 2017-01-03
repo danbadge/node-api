@@ -17,8 +17,6 @@ test_job:
 
 package_job:
   image: docker:git
-  services:
-  - docker:dind
   stage: package
   script:
     - ls -la ./scripts
