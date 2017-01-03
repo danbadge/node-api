@@ -1,5 +1,3 @@
-image: node:latest
-
 before_script:
   - npm install
 
@@ -14,6 +12,7 @@ cache:
   - node_modules/
 
 test_job:
+  image: node/4.7.0-alpine:latest
   stage: test
   script:
    - npm test
@@ -35,4 +34,4 @@ deploy_production_job:
   variables:
     ENVIRONMENT: "production"
   script:
-    - ./scripts/gitlab_deploy.sh    
+    - ./scripts/gitlab_deploy.sh
