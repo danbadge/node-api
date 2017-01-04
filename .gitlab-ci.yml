@@ -10,7 +10,7 @@ stages:
 
 variables:
   IMAGE_BASE: registry.gitlab.com/danbadge/node-api
-  PIPELINE_IMAGE_NAME: $IMAGE_BASE:$CI_PIPELINE_ID
+  PIPELINE_IMAGE_NAME: $IMAGE_BASE:$CI_BUILD_REF
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
@@ -39,6 +39,8 @@ deploy_staging:
     ENVIRONMENT: staging
   script:
     - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e ENVIRONMENT=${ENVIRONMENT} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -v $(pwd):/usr/src --entrypoint /usr/bin/env driftrock/heroku-cli /scripts/heroku_deploy.sh
+  only:
+    - master
 
 deploy_production:
   stage: deploy_production
@@ -48,3 +50,5 @@ deploy_production:
     ENVIRONMENT: staging
   script:
     - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e ENVIRONMENT=${ENVIRONMENT} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -v $(pwd):/usr/src --entrypoint /usr/bin/env driftrock/heroku-cli /scripts/heroku_deploy.sh
+  only:
+    - master
