@@ -5,7 +5,6 @@ services:
 stages:
   - build
   - test
-  - package
   - deploy_staging
   - deploy_production
 
