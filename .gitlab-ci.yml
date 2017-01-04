@@ -33,22 +33,25 @@ test2:
 
 deploy_staging:
   stage: deploy_staging
-  environment: staging
+  environment:
+    name: staging
+    url: https://node-api-staging.herokuapp.com/
   variables:
     HEROKU_APP_NAME: node-api-staging
-    ENVIRONMENT: staging
   script:
-    - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e ENVIRONMENT=${ENVIRONMENT} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -v $(pwd):/usr/src --entrypoint /bin/bash --workdir /usr/src driftrock/heroku-cli /usr/src/scripts/heroku_deploy.sh
+    - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e ENVIRONMENT=${CI_ENVIRONMENT_NAME} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -v $(pwd):/usr/src --entrypoint /bin/bash --workdir /usr/src driftrock/heroku-cli /usr/src/scripts/heroku_deploy.sh
   only:
     - master
 
 deploy_production:
   stage: deploy_production
-  environment: production
+  environment:
+    name: production
+    url: https://node-api-production.herokuapp.com/
   variables:
     HEROKU_APP_NAME: node-api-production
-    ENVIRONMENT: staging
   script:
-    - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e ENVIRONMENT=${ENVIRONMENT} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -v $(pwd):/usr/src --entrypoint /bin/bash --workdir /usr/src driftrock/heroku-cli /usr/src/scripts/heroku_deploy.sh
+    - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e ENVIRONMENT=${CI_ENVIRONMENT_NAME} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -v $(pwd):/usr/src --entrypoint /bin/bash --workdir /usr/src driftrock/heroku-cli /usr/src/scripts/heroku_deploy.sh
+  when: manual
   only:
     - master
