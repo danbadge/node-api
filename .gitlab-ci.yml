@@ -14,7 +14,7 @@ variables:
   PIPELINE_IMAGE_NAME: $IMAGE_BASE:$CI_PIPELINE_ID
 
 before_script:
-  - docker login $CI_REGISTRY
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
 
 build:
   stage: build
