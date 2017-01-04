@@ -36,19 +36,15 @@ deploy_staging:
   environment: staging
   variables:
     HEROKU_APP_NAME: node-api-staging
+    ENVIRONMENT: staging
   script:
-    - HEROKU_TOKEN=$(docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -v $(pwd)/scripts:/scripts --entrypoint /usr/bin/env driftrock/heroku-cli /scripts/heroku_token.sh)
-    - docker login --email=_ --username=_ --password=${HEROKU_TOKEN} registry.heroku.com
-    - docker tag $PIPELINE_IMAGE_NAME registry.heroku.com/$heroku_app_name/web
-    - docker push registry.heroku.com/$heroku_app_name/web
+    - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e ENVIRONMENT=${ENVIRONMENT} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -v $(pwd):/usr/src --entrypoint /usr/bin/env driftrock/heroku-cli /scripts/heroku_deploy.sh
 
 deploy_production:
   stage: deploy_production
   environment: production
   variables:
     HEROKU_APP_NAME: node-api-production
+    ENVIRONMENT: staging
   script:
-    - HEROKU_TOKEN=$(docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -v $(pwd)/scripts:/scripts --entrypoint /usr/bin/env driftrock/heroku-cli /scripts/heroku_token.sh)
-    - docker login --email=_ --username=_ --password=${HEROKU_TOKEN} registry.heroku.com
-    - docker tag $PIPELINE_IMAGE_NAME registry.heroku.com/$HEROKU_APP_NAME/web
-    - docker push registry.heroku.com/$HEROKU_APP_NAME/web
+    - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e ENVIRONMENT=${ENVIRONMENT} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -v $(pwd):/usr/src --entrypoint /usr/bin/env driftrock/heroku-cli /scripts/heroku_deploy.sh
