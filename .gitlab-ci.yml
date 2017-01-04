@@ -1,40 +1,55 @@
+image: docker:git
+services:
+- docker:dind
+
 stages:
+  - build
   - test
   - package
   - deploy_staging
   - deploy_production
 
-cache:
-  paths:
-  - node_modules/
+variables:
+  IMAGE_BASE: $CI_REGISTRY/danbadge/node-api
+  PIPELINE_IMAGE_NAME: $IMAGE_BASE:$CI_PIPELINE_ID
 
-test_job:
-  image: node:latest
+before_script:
+  - docker login $CI_REGISTRY
+
+build:
+  stage: build
+  script:
+    - docker build -t $PIPELINE_IMAGE_NAME .
+    - docker push $PIPELINE_IMAGE_NAME
+
+test1:
   stage: test
   script:
-    - npm install
-    - npm test
+    - docker run $PIPELINE_IMAGE_NAME "npm test"
 
-package_job:
-  image: docker:git
-  stage: package
+test2:
+  stage: test
   script:
-    - ls -la ./scripts
-    - cat ./scripts/gitlab_package.sh
-    - ./scripts/gitlab_package.sh
+    - docker run $PIPELINE_IMAGE_NAME "npm test"
 
 deploy_staging_job:
   stage: deploy_staging
   environment: staging
   variables:
-    ENVIRONMENT: "staging"
+    HEROKU_APP_NAME: node-api-staging
   script:
-    - ./scripts/gitlab_deploy.sh
+    - HEROKU_TOKEN=$(docker run driftrock/heroku-cli "heroku auth:token")
+    - docker login --email=_ --username=_ --password=$HEROKU_TOKEN registry.heroku.com
+    - docker tag $PIPELINE_IMAGE_NAME registry.heroku.com/$heroku_app_name/web
+    - docker push registry.heroku.com/$heroku_app_name/web
 
 deploy_production_job:
-  stage: deploy_production
-  environment: production
-  variables:
-    ENVIRONMENT: "production"
-  script:
-    - ./scripts/gitlab_deploy.sh
+stage: deploy_production
+environment: production
+variables:
+  HEROKU_APP_NAME: node-api-production
+script:
+  - HEROKU_TOKEN=$(docker run driftrock/heroku-cli "heroku auth:token")
+  - docker login --email=_ --username=_ --password=$HEROKU_TOKEN registry.heroku.com
+  - docker tag $PIPELINE_IMAGE_NAME registry.heroku.com/$HEROKU_APP_NAME/web
+  - docker push registry.heroku.com/$HEROKU_APP_NAME/web
