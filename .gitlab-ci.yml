@@ -25,12 +25,12 @@ build:
 test1:
   stage: test
   script:
-    - docker run $PIPELINE_IMAGE_NAME "npm test"
+    - docker run $PIPELINE_IMAGE_NAME npm test
 
 test2:
   stage: test
   script:
-    - docker run $PIPELINE_IMAGE_NAME "npm test"
+    - docker run $PIPELINE_IMAGE_NAME npm test
 
 deploy_staging:
   stage: deploy_staging
