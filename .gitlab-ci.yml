@@ -10,11 +10,11 @@ stages:
   - deploy_production
 
 variables:
-  IMAGE_BASE: $CI_REGISTRY/danbadge/node-api
+  IMAGE_BASE: registry.example.com/danbadge/node-api
   PIPELINE_IMAGE_NAME: $IMAGE_BASE:$CI_PIPELINE_ID
 
 before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.example.com
 
 build:
   stage: build
