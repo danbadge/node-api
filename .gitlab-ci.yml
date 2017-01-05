@@ -32,7 +32,7 @@ test2:
     - docker run $PIPELINE_IMAGE_NAME npm test
 
 driftrock_staging:
-  image: driftrock/heroku-cli
+  image: driftrock/heroku-cli:shell
   stage: deploy_staging
   environment:
     name: staging
@@ -40,12 +40,12 @@ driftrock_staging:
   variables:
     HEROKU_APP_NAME: node-api-staging
   script:
-    - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e CI_ENVIRONMENT_NAME=${CI_ENVIRONMENT_NAME} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -e CI_BUILD_REF=${CI_BUILD_REF} -v $(pwd):/usr/src --entrypoint /bin/bash --workdir /usr/src driftrock/heroku-cli /usr/src/scripts/heroku_deploy.sh
+    - ./scripts/heroku_deploy.sh
   only:
     - master
 
 smartfocus_staging:
-  image: driftrock/heroku-cli
+  image: driftrock/heroku-cli:shell
   stage: deploy_staging
   environment:
     name: staging
@@ -53,7 +53,7 @@ smartfocus_staging:
   variables:
     HEROKU_APP_NAME: node-api-staging
   script:
-    - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e CI_ENVIRONMENT_NAME=${CI_ENVIRONMENT_NAME} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -e CI_BUILD_REF=${CI_BUILD_REF} -v $(pwd):/usr/src --entrypoint /bin/bash --workdir /usr/src driftrock/heroku-cli /usr/src/scripts/heroku_deploy.sh
+    - ./scripts/heroku_deploy.sh
   when: manual
   only:
     - master
