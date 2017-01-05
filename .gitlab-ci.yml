@@ -1,7 +1,3 @@
-image: docker:git
-services:
-- docker:dind
-
 stages:
   - build
   - test
@@ -12,22 +8,24 @@ variables:
   IMAGE_BASE: registry.gitlab.com/danbadge/node-api
   PIPELINE_IMAGE_NAME: $IMAGE_BASE:$CI_BUILD_REF
 
-before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-
 build:
+  image: docker:git
+  services:
+  - docker:dind
   stage: build
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   script:
     - docker build -t $PIPELINE_IMAGE_NAME .
     - docker push $PIPELINE_IMAGE_NAME
 
 test1:
+  image: docker:git
+  services:
+  - docker:dind
   stage: test
-  script:
-    - docker run $PIPELINE_IMAGE_NAME npm test
-
-test2:
-  stage: test
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   script:
     - docker run $PIPELINE_IMAGE_NAME npm test
 
@@ -59,6 +57,7 @@ smartfocus_staging:
     - master
 
 driftrock_production:
+  image: driftrock/heroku-cli:shell
   stage: deploy_production
   environment:
     name: production
@@ -66,13 +65,13 @@ driftrock_production:
   variables:
     HEROKU_APP_NAME: node-api-production
   script:
-    - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e CI_ENVIRONMENT_NAME=${CI_ENVIRONMENT_NAME} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -e CI_BUILD_REF=${CI_BUILD_REF} -v $(pwd):/usr/src --entrypoint /bin/bash --workdir /usr/src driftrock/heroku-cli /usr/src/scripts/heroku_deploy.sh
+    - ./scripts/heroku_deploy.sh
   when: manual
   only:
     - master
 
 smartfocus_production:
-  image: driftrock/heroku-cli
+  image: driftrock/heroku-cli:shell
   stage: deploy_production
   environment:
     name: staging
@@ -80,7 +79,7 @@ smartfocus_production:
   variables:
     HEROKU_APP_NAME: node-api-production
   script:
-    - docker run -e HEROKU_USER=${HEROKU_USER} -e HEROKU_PWD=${HEROKU_PWD} -e CI_ENVIRONMENT_NAME=${CI_ENVIRONMENT_NAME} -e HEROKU_APP_NAME=${HEROKU_APP_NAME} -e CI_BUILD_REF=${CI_BUILD_REF} -v $(pwd):/usr/src --entrypoint /bin/bash --workdir /usr/src driftrock/heroku-cli /usr/src/scripts/heroku_deploy.sh
+    - ./scripts/heroku_deploy.sh
   when: manual
   only:
     - master
