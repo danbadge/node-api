@@ -33,7 +33,7 @@ driftrock_staging:
   image: driftrock/heroku-cli:shell
   stage: deploy_staging
   environment:
-    name: staging
+    name: driftrock_staging
     url: https://node-api-staging.herokuapp.com/
   variables:
     HEROKU_APP_NAME: node-api-staging
@@ -46,7 +46,7 @@ smartfocus_staging:
   image: driftrock/heroku-cli:shell
   stage: deploy_staging
   environment:
-    name: staging
+    name: smarfocus_staging
     url: https://node-api-staging.herokuapp.com/
   variables:
     HEROKU_APP_NAME: node-api-staging
@@ -60,7 +60,7 @@ driftrock_production:
   image: driftrock/heroku-cli:shell
   stage: deploy_production
   environment:
-    name: production
+    name: driftrock_production
     url: https://node-api-production.herokuapp.com/
   variables:
     HEROKU_APP_NAME: node-api-production
@@ -69,12 +69,14 @@ driftrock_production:
   when: manual
   only:
     - master
+  dependencies:
+    - driftrock_staging
 
 smartfocus_production:
   image: driftrock/heroku-cli:shell
   stage: deploy_production
   environment:
-    name: staging
+    name: smartfocus_production
     url: https://node-api-production.herokuapp.com/
   variables:
     HEROKU_APP_NAME: node-api-production
@@ -83,3 +85,5 @@ smartfocus_production:
   when: manual
   only:
     - master
+  dependencies:
+    - smartfocus_staging
