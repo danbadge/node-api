@@ -31,7 +31,7 @@ test2:
   script:
     - docker run $PIPELINE_IMAGE_NAME npm test
 
-deploy_drock_staging:
+driftrock_staging:
   image: driftrock/heroku-cli
   stage: deploy_staging
   environment:
@@ -44,7 +44,7 @@ deploy_drock_staging:
   only:
     - master
 
-deploy_sf_staging:
+smartfocus_staging:
   image: driftrock/heroku-cli
   stage: deploy_staging
   environment:
@@ -58,7 +58,7 @@ deploy_sf_staging:
   only:
     - master
 
-deploy_drock_production:
+driftrock_production:
   stage: deploy_production
   environment:
     name: production
@@ -71,7 +71,7 @@ deploy_drock_production:
   only:
     - master
 
-deploy_drock_staging:
+smartfocus_production:
   image: driftrock/heroku-cli
   stage: deploy_production
   environment:
