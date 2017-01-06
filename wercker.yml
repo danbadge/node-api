@@ -25,4 +25,4 @@ deploy_staging:
   steps:
     - script:
         name: heroku deploy
-        code: CI_ENVIRONMENT_NAME=staging CI_BUILD_REF=$WERCKER_GIT_COMMIT ./scripts/heroku_deploy.sh
+        code: CI_BUILD_REF=$WERCKER_GIT_COMMIT ./scripts/heroku_deploy.sh
