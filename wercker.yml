@@ -20,7 +20,7 @@ package:
         cmd: node server.js
         ports: 3000
 
-deploy_staging:
+deploy-staging:
   image: driftrock/heroku-cli:shell
   steps:
     - script:
