@@ -21,7 +21,8 @@ package:
         ports: 3000
 
 deploy-staging:
-  image: driftrock/heroku-cli:shell
+  box:
+    id: driftrock/heroku-cli:shell
   steps:
     - script:
         name: heroku deploy
