@@ -7,6 +7,7 @@ stages:
 variables:
   IMAGE_BASE: registry.gitlab.com/danbadge/node-api
   PIPELINE_IMAGE_NAME: $IMAGE_BASE:$CI_BUILD_REF
+  DOCKER_DRIVER: overlay
 
 build:
   image: docker:git
