@@ -9,7 +9,6 @@ steps:
     env:
       HEROKU_APP_NAME: node-api-staging
       CI_ENVIRONMENT_NAME: staging
-      CI_BUILD_REF: $BUILDKITE_COMMIT
 
   - block: :shipit: Release this shit
 
@@ -18,7 +17,6 @@ steps:
     env:
       HEROKU_APP_NAME: node-api-production
       CI_ENVIRONMENT_NAME: production
-      CI_BUILD_REF: $BUILDKITE_COMMIT
 
   - command: echo "hello"
     label: something else
