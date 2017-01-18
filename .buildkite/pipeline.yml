@@ -4,7 +4,7 @@ steps:
 
   - wait
 
-  - command: "docker run -v .:/app -w /app driftrock/heroku-cli:shell ./scripts/heroku_deploy.sh"
+  - command: ./scripts/docker_heroku_deploy.sh
     label: "deploy staging :shipit:"
     env:
       HEROKU_APP_NAME: node-api-staging
@@ -12,7 +12,7 @@ steps:
 
   - block: ":shipit: Release this shit"
 
-  - command: "docker run -v .:/app -w /app driftrock/heroku-cli:shell ./scripts/heroku_deploy.sh"
+  - command: ./scripts/docker_heroku_deploy.sh
     label: "deploy production :shipit:"
     env:
       HEROKU_APP_NAME: node-api-production
