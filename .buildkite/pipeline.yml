@@ -5,7 +5,7 @@ steps:
   - wait
 
   - command: docker run driftrock/heroku-cli:shell
-    label: deploy staging :shipit:
+    label: 'deploy staging :shipit:'
     env:
       HEROKU_APP_NAME: node-api-staging
       CI_ENVIRONMENT_NAME: staging
@@ -14,10 +14,10 @@ steps:
   - block: :shipit: Release this shit
 
   - command: docker run driftrock/heroku-cli:shell
-    label: deploy staging :shipit:
+    label: 'deploy production :shipit:'
     env:
-      HEROKU_APP_NAME: node-api-staging
-      CI_ENVIRONMENT_NAME: staging
+      HEROKU_APP_NAME: node-api-production
+      CI_ENVIRONMENT_NAME: production
       CI_BUILD_REF: $BUILDKITE_COMMIT
 
   - command: echo "hello"
