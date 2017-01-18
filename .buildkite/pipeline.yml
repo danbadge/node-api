@@ -5,15 +5,15 @@ steps:
   - wait
 
   - command: docker run driftrock/heroku-cli:shell
-    label: 'deploy staging :shipit:'
+    label: "deploy staging :shipit:"
     env:
       HEROKU_APP_NAME: node-api-staging
       CI_ENVIRONMENT_NAME: staging
 
-  - block: :shipit: Release this shit
+  - block: ":shipit: Release this shit"
 
   - command: docker run driftrock/heroku-cli:shell
-    label: 'deploy production :shipit:'
+    label: "deploy production :shipit:"
     env:
       HEROKU_APP_NAME: node-api-production
       CI_ENVIRONMENT_NAME: production
