@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: node-api
+spec:
+  replicas: 5
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: node-api
+    spec:
+      containers:
+      - args:
+        - node
+        - server.js
+        name: node-api
+        image: us.gcr.io/platform-156214/node-api:latest
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always
+status: {}
